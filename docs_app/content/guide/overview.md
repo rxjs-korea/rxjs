@@ -1,29 +1,29 @@
-# Introduction
+# 소개
 
-RxJS is a library for composing asynchronous and event-based programs by using observable sequences. It provides one core type, the [Observable](./guide/observable), satellite types (Observer, Schedulers, Subjects) and operators inspired by `Array` methods (`map`, `filter`, `reduce`, `every`, etc) to allow handling asynchronous events as collections.
+RxJS는 observable sequence를 사용하여 비동기 및 event 기반 프로그램을 제작하기 위한 라이브러리입니다. 핵심 유형 중 하나인 [Observable](./guide/observable), satellite types (Observer, Schedulers, Subjects), `Array` 메서드 (`map`, `filter`, `reduce`, `every` 등) 에 의해 영감을 받아 비동기 event를 collection로 처리할 수 있게 합니다.
 
-<span class="informal">Think of RxJS as Lodash for events.</span>
+<span class="informal">RxJS를 이벤트용 Lodash 처럼 생각하세요.</span>
 
-ReactiveX combines the [Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern) with the [Iterator pattern](https://en.wikipedia.org/wiki/Iterator_pattern) and [functional programming with collections](http://martinfowler.com/articles/collection-pipeline/#NestedOperatorExpressions) to fill the need for an ideal way of managing sequences of events.
+ReactiveX는 [Observer 패턴](https://en.wikipedia.org/wiki/Observer_pattern)과 [Iterator 패턴](https://en.wikipedia.org/wiki/Iterator_pattern)과 [컬렉션을 이용한 함수형 프로그래밍](http://martinfowler.com/articles/collection-pipeline/#NestedOperatorExpressions)을 결합하여 event sequence를 관리하기 위한 아이디어를 제공합니다.
 
-The essential concepts in RxJS which solve async event management are:
+비동기 event 관리를 위한 RxJS의 본질적인 개념:
 
-- **Observable:** represents the idea of an invokable collection of future values or events.
-- **Observer:** is a collection of callbacks that knows how to listen to values delivered by the Observable.
-- **Subscription:** represents the execution of an Observable, is primarily useful for cancelling the execution.
-- **Operators:** are pure functions that enable a functional programming style of dealing with collections with operations like `map`, `filter`, `concat`, `reduce`, etc.
-- **Subject:** is equivalent to an EventEmitter, and the only way of multicasting a value or event to multiple Observers.
-- **Schedulers:** are centralized dispatchers to control concurrency, allowing us to coordinate when computation happens on e.g. `setTimeout` or `requestAnimationFrame` or others.
+- **Observable:**  변경될 수 있는 value나 이벤트를 다루는 collection.
+- **Observer:** Observable에서 전달하는 value를 처리하는 callback collection.
+- **Subscription:** Observable의 실행. 주로 실행을 취소하는데 유용하다.
+- **Operators:** `map`, `filter`, `concat`, `reduce` 등의 함수형 프로그래밍 표현을 가능하게 해주는 순수 함수.
+- **Subject:** EventEmitter와 동등하다. value나 event를 다수의 Observer로 멀티캐스팅 할 수 있는 유일한 방법.
+- **Schedulers:** 동시성을 제어하는 중앙집중식 dispatcher. `setTimeout`이나 `requestAnimationFrame`등의 연산이 일어날 때 작동함.
 
-## First examples
+## 예시
 
-Normally you register event listeners.
+일반적으로 event listener를 등록하는 코드:
 
 ```ts
 document.addEventListener('click', () => console.log('Clicked!'));
 ```
 
-Using RxJS you create an observable instead.
+RxJS를 이용해 observable을 만드는 코드:
 
 ```ts
 import { fromEvent } from 'rxjs';
@@ -33,17 +33,16 @@ fromEvent(document, 'click').subscribe(() => console.log('Clicked!'));
 
 ### Purity
 
-What makes RxJS powerful is its ability to produce values using pure functions. That means your code is less prone to errors.
+RxJS를 강력하게 만드는 것은 순수한 함수를 사용하여 value를 생성하는 기능입니다. 코드에서 에러가 덜 발생합니다.
 
-Normally you would create an impure function, where other
-pieces of your code can mess up your state.
+일반적으로, state를 엉망으로 만드는 불순한 함수:
 
 ```ts
 let count = 0;
 document.addEventListener('click', () => console.log(`Clicked ${++count} times`));
 ```
 
-Using RxJS you isolate the state.
+RxJS를 이용해 state를 격리하는 코드:
 
 ```ts
 import { fromEvent, scan } from 'rxjs';
@@ -53,13 +52,13 @@ fromEvent(document, 'click')
   .subscribe((count) => console.log(`Clicked ${count} times`));
 ```
 
-The **scan** operator works just like **reduce** for arrays. It takes a value which is exposed to a callback. The returned value of the callback will then become the next value exposed the next time the callback runs.
+**scan**은 배열의 **reduce**와 동일하게 작동합니다. callback에는 시작 value가 필요하고, callback이 리턴한 value는 다음 callback의 value가 됩니다.
 
 ### Flow
 
-RxJS has a whole range of operators that helps you control how the events flow through your observables.
+RxJS에는 event가 observable에 의해 제어되도록 도와주는 전역 operator가 있습니다.
 
-This is how you would allow at most one click per second, with plain JavaScript:
+순수 JavaScript를 이용하여 초당 한 번만 클릭을 허용하는 코드:
 
 ```ts
 let count = 0;
@@ -73,7 +72,7 @@ document.addEventListener('click', () => {
 });
 ```
 
-With RxJS:
+RxJS 이용한 코드:
 
 ```ts
 import { fromEvent, throttleTime, scan } from 'rxjs';
@@ -86,13 +85,13 @@ fromEvent(document, 'click')
   .subscribe((count) => console.log(`Clicked ${count} times`));
 ```
 
-Other flow control operators are [**filter**](../api/operators/filter), [**delay**](../api/operators/delay), [**debounceTime**](../api/operators/debounceTime), [**take**](../api/operators/take), [**takeUntil**](../api/operators/takeUntil), [**distinct**](../api/operators/distinct), [**distinctUntilChanged**](../api/operators/distinctUntilChanged) etc.
+다른 흐름 제어 operator는 [**filter**](../api/operators/filter), [**delay**](../api/operators/delay), [**debounceTime**](../api/operators/debounceTime), [**take**](../api/operators/take), [**takeUntil**](../api/operators/takeUntil), [**distinct**](../api/operators/distinct), [**distinctUntilChanged**](../api/operators/distinctUntilChanged) 등이 있습니다.
 
 ### Values
 
-You can transform the values passed through your observables.
+observable을 이용해 value를 변경할 수 있습니다.
 
-Here's how you can add the current mouse x position for every click, in plain JavaScript:
+순수 JavaScript를 이용해 클릭할 때 마다 마우스의 x좌표를 더하는 코드:
 
 ```ts
 let count = 0;
@@ -107,7 +106,7 @@ document.addEventListener('click', (event) => {
 });
 ```
 
-With RxJS:
+RxJS를 이용한 코드:
 
 ```ts
 import { fromEvent, throttleTime, map, scan } from 'rxjs';
@@ -121,4 +120,4 @@ fromEvent(document, 'click')
   .subscribe((count) => console.log(count));
 ```
 
-Other value producing operators are [**pluck**](../api/operators/pluck), [**pairwise**](../api/operators/pairwise), [**sample**](../api/operators/sample) etc.
+value를 다루는 다른 operator로는 [**pluck**](../api/operators/pluck), [**pairwise**](../api/operators/pairwise), [**sample**](../api/operators/sample) 등이 있습니다.
