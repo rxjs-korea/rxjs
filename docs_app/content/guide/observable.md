@@ -67,20 +67,20 @@ done
 
 ## Pull vs Push
 
-_Pull_ and _Push_ are two different protocols that describe how a data _Producer_ can communicate with a data _Consumer_.
+_Pull_ 과 _Push_ 는 데이터의 _(Producer)생산자_ 와 _(Consumer)소비자_ 가 통신하는 서로 다른방법의 프로토콜 입니다.
 
-**What is Pull?** In Pull systems, the Consumer determines when it receives data from the data Producer. The Producer itself is unaware of when the data will be delivered to the Consumer.
+**Pull?** Pull은 Consumer(소비자)가 언제 Producer(생산자)에게 데이터를 받을지 결정하는 시스템 입니다. Producer(생산자)는 언제 Consumer(생산자)에게 데이터가 전달 될 지 알 수 없습니다.
 
-Every JavaScript Function is a Pull system. The function is a Producer of data, and the code that calls the function is consuming it by "pulling" out a _single_ return value from its call.
+JavaScript의 함수는 Pull 시스템 입니다. 함수는 Producer(생산자)이고, 함수를 호출하는 코드가 "pulling"하여 _single_ value를 consume(소비) 합니다.
 
-ES2015 introduced [generator functions and iterators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) (`function*`), another type of Pull system. Code that calls `iterator.next()` is the Consumer, "pulling" out _multiple_ values from the iterator (the Producer).
+ES2015에서 다른 타입의 Pull 시스템인 [generator functions and iterators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) (`function*`)이 도입되었습니다. `iterator.next()`는 호출 시 iterator(Producer(생산자))로 부터 여러 value를 가져오는 Consumer(소비자) 입니다.
 
 |          | Producer                                   | Consumer                                    |
 | -------- | ------------------------------------------ | ------------------------------------------- |
 | **Pull** | **Passive:** produces data when requested. | **Active:** decides when data is requested. |
 | **Push** | **Active:** produces data at its own pace. | **Passive:** reacts to received data.       |
 
-**What is Push?** In Push systems, the Producer determines when to send data to the Consumer. The Consumer is unaware of when it will receive that data.
+**Push?** In Push systems, the Producer determines when to send data to the Consumer. The Consumer is unaware of when it will receive that data.
 
 Promises are the most common type of Push system in JavaScript today. A Promise (the Producer) delivers a resolved value to registered callbacks (the Consumers), but unlike functions, it is the Promise which is in charge of determining precisely when that value is "pushed" to the callbacks.
 
