@@ -1,13 +1,13 @@
 # Observable
 
-Observables are lazy Push collections of multiple values. They fill the missing spot in the following table:
+Observable은 여러 value를 지연된 push를 할 수 있는 collection 입니다. 다음은 누락된 부분의 보충설명을 위한 테이블:
 
 |          | Single                                                                                                | Multiple                                                                                            |
 | -------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **Pull** | [`Function`](https://developer.mozilla.org/en-US/docs/Glossary/Function)                              | [`Iterator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols) |
 | **Push** | [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) | [`Observable`](/api/index/class/Observable)                                                         |
 
-**Example.** The following is an Observable that pushes the values `1`, `2`, `3` immediately (synchronously) when subscribed, and the value `4` after one second has passed since the subscribe call, then completes:
+**예시:** 다음은 Observable이 subscribe된 직후(동기적으로) `1`, `2`, `3` 을 push하고, 1초 후 `4`를 push하고 완료되는 코드:
 
 ```ts
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ const observable = new Observable((subscriber) => {
 });
 ```
 
-To invoke the Observable and see these values, we need to _subscribe_ to it:
+Observable을 호출 후 value를 확인하기 위해, _subscribe_ 하는 코드:
 
 ```ts
 import { Observable } from 'rxjs';
@@ -53,7 +53,7 @@ observable.subscribe({
 console.log('just after subscribe');
 ```
 
-Which executes as such on the console:
+실행 후 콘솔에 출력되는 결과:
 
 ```none
 just before subscribe
@@ -65,7 +65,7 @@ got value 4
 done
 ```
 
-## Pull versus Push
+## Pull vs Push
 
 _Pull_ and _Push_ are two different protocols that describe how a data _Producer_ can communicate with a data _Consumer_.
 
